@@ -326,10 +326,12 @@ public class RNGestureHandlerModule extends ReactContextBaseJavaModule {
     @Override
     public void extractEventData(PanGestureHandler handler, WritableMap eventData) {
       super.extractEventData(handler, eventData);
+      int screenPos[] = new int[2];
+      handler.getView().getRootView().getLocationOnScreen(screenPos);
       eventData.putDouble("x", PixelUtil.toDIPFromPixel(handler.getLastRelativePositionX()));
       eventData.putDouble("y", PixelUtil.toDIPFromPixel(handler.getLastRelativePositionY()));
-      eventData.putDouble("absoluteX", PixelUtil.toDIPFromPixel(handler.getLastAbsolutePositionX()));
-      eventData.putDouble("absoluteY", PixelUtil.toDIPFromPixel(handler.getLastAbsolutePositionY()));
+      eventData.putDouble("absoluteX", PixelUtil.toDIPFromPixel(handler.getLastAbsolutePositionX()) - PixelUtil.toDIPFromPixel(screenPos[0]));
+      eventData.putDouble("absoluteY", PixelUtil.toDIPFromPixel(handler.getLastAbsolutePositionY()) - PixelUtil.toDIPFromPixel(screenPos[1]));
       eventData.putDouble("translationX", PixelUtil.toDIPFromPixel(handler.getTranslationX()));
       eventData.putDouble("translationY", PixelUtil.toDIPFromPixel(handler.getTranslationY()));
       eventData.putDouble("velocityX", PixelUtil.toDIPFromPixel(handler.getVelocityX()));
